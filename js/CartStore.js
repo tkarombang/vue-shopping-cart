@@ -1,24 +1,23 @@
 import { ref, reactive, computed } from "vue";
 
+let products = ref(null);
 const cart = ref([]);
-export let style = reactive({
+
+// Sorting Product
+const maxPrice = ref(0);
+let style = reactive({
   label: ["form-label", "w-25", "text-nowrap"],
-  // label: ["font-weight-bold", "mr-2"],
   inputWidth: 65,
   sliderStatus: false,
 });
-
 //Mengekspose object style ke window global
 window.style = style;
 
-export const sliderState = computed(() => {
+const sliderState = computed(() => {
   return style.sliderStatus ? "d-flex" : "d-none";
 });
 
-// export function addToCart(product) {
-//   return cart.value.push(product);
-// }
-
+// ADD TO CART
 const addToCart = (product, qty = 1) => {
   const itemIndex = cart.value.findIndex((item) => item.product.id === product.id);
 
@@ -36,6 +35,7 @@ const totalCartPrice = computed(() => {
 const totalQuantity = computed(() => {
   return cart.value.reduce((acc, item) => acc + item.qty, 0);
 });
+
 const removeFromCart = (product, qty = 1) => {
   const itemIndex = cart.value.findIndex((item) => item.product.id === product.id);
 
@@ -51,4 +51,7 @@ const removeFromCart = (product, qty = 1) => {
   }
 };
 
-export { addToCart, cart, totalCartPrice, totalQuantity, removeFromCart };
+// Product functional exporting
+export { products, addToCart, cart, totalCartPrice, totalQuantity, removeFromCart };
+// Slider functional exporting
+export { maxPrice, style, sliderState };
